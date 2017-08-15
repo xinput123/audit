@@ -1,0 +1,27 @@
+server:
+  port: 9012
+  tomcat:
+    uri-encoding: UTF-8
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9010/eureka/ # 服务注册中心地址
+
+spring:
+  application:
+    name: audit-services-user
+  # mongodb配置
+  data:
+    mongodb:
+      # 如果mongo设置了密码
+      uri: mongodb://yuan:123456$!@192.168.99.100:27017/xx
+    
+    
+    
+    
+    
+    
+    
+    
+    

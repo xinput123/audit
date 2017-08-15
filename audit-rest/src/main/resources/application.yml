@@ -1,0 +1,26 @@
+server:
+  port: 9011
+  tomcat:
+    uri-encoding: UTF-8
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9010/eureka/ # 服务注册中心地址
+
+spring:
+  application:
+    name: audit-rest
+
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+  httpclient:
+    enabled: true
+ 
+audit:
+  services:
+    name: audit-services-user

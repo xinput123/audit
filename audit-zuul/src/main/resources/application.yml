@@ -1,0 +1,22 @@
+server:
+  port: 9020
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  application:
+    name: audit-zuul
+
+zuul:
+  host:
+    maxTotalConnections: 200
+    maxPerRouteConnections: 20
+  routes:
+    rest-user:
+      path: /user/**
+      stripPrefix: false
+      serviceId: audit-rest
+    rest-order:
+      path: /order/**
+      stripPrefix: false
+      serviceId: audit-rest

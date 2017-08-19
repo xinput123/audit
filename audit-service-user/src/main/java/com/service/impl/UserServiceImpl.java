@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.base.param.UserParam;
 import com.base.po.SelectResult;
 import com.base.user.User;
@@ -10,8 +11,13 @@ import com.service.dao.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserServiceImpl implements UserService{
@@ -51,5 +57,26 @@ public class UserServiceImpl implements UserService{
         user.setIdCard(userParam.getIdCard());
 
         return user;
+    }
+
+    // 排序 <==> mysql order
+    public List<Sort.Order> getOrder(String orderString){
+        List<Sort.Order> orders = new ArrayList<Sort.Order>();
+        List<Map> orderList = JSON.parseArray(orderString, Map.class);
+        if(null!=orderList && orderList.size()>0){
+            for(Map<String,String> order : orderList ){
+                for(Map.Entry<String,String> map : order.entrySet()){
+                    if("asc".equals(map.getValue())){
+                        orders.add(new Sort.Order(Sort.Direction.ASC, map.getKey()));
+                    }else {
+                        orders.add(new Sort.Order(Sort.Direction.DESC, map.getKey()));
+                    }
+                }
+            }
+        }else {
+            orders.add(new Sort.Order(Sort.Direction.DESC,"createDate"));
+        }
+
+        return orders;
     }
 }
